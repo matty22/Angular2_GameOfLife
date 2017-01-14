@@ -1,0 +1,5 @@
+/* Styles for Gameboard canvas */
+#gameboard {
+  border: 1px solid black;
+  background-color: #bababa
+}
