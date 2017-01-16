@@ -47,18 +47,21 @@ export class GameboardComponent implements OnInit {
     // Randomly generate 20% of all cells and make them alive
     function firstGeneration(width, height) {
       var aliveCells:number = (width * height) * 0.20;
+      var aliveArray = [];
       while (aliveCells > 0) {
         var randomCellNumber:number = 0;
         var randomRow:number;
         var randomColumn:number;
 
         randomCellNumber = (Math.floor(Math.random() * 4251));
+        aliveArray.push(randomCellNumber);
         randomRow = Math.ceil(randomCellNumber / 85);
         randomColumn = randomCellNumber % 85;
         ctx.fillStyle = "red";
         ctx.fillRect(randomColumn * 10, randomRow * 10, 10, 10);
         aliveCells -= 1;
-      } 
+      }
+      console.log(aliveArray); 
     }
   }
 
