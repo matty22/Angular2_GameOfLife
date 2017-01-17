@@ -52,11 +52,14 @@ export class GameboardComponent implements OnInit {
         var randomCellNumber:number = 0;
         var randomRow:number;
         var randomColumn:number;
+        var cellArray = [];
 
         randomCellNumber = (Math.floor(Math.random() * 4251));
-        aliveArray.push(randomCellNumber);
-        randomRow = Math.ceil(randomCellNumber / 85);
+        randomRow = Math.floor(randomCellNumber / 85);
         randomColumn = randomCellNumber % 85;
+        cellArray.push(randomColumn)
+        cellArray.push(randomRow);
+        aliveArray.push(cellArray);
         ctx.fillStyle = "red";
         ctx.fillRect(randomColumn * 10, randomRow * 10, 10, 10);
         aliveCells -= 1;
