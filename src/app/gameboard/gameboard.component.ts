@@ -46,6 +46,17 @@ export class GameboardComponent implements OnInit {
 
     // Randomly generate 20% of all cells and make them alive
     function firstGeneration(width, height) {
+      
+      // This loop creates an array of all cells in the grid, and their X and Y coordinates
+      var allCellsArray = []; // Array of all cells living and dead
+      for (var i = 0; i < canvasWidth * canvasHeight; i++) {
+        var innerCellArray = [];
+        innerCellArray.push(i % canvasWidth);
+        innerCellArray.push(Math.floor(i / canvasWidth));
+        allCellsArray.push(innerCellArray);
+      }
+      
+      // This block creates an array of X, Y coordinates for living cells only
       var aliveCells:number = (width * height) * 0.20;
       var aliveArray = [];
       while (aliveCells > 0) {
@@ -63,12 +74,24 @@ export class GameboardComponent implements OnInit {
         ctx.fillStyle = "red";
         ctx.fillRect(randomColumn * 10, randomRow * 10, 10, 10);
         aliveCells -= 1;
-      }
-      console.log(aliveArray); 
+      } 
     }
   }
 
-  
+  simulateLife() {
+    var xPos = 0;  // X position of cell
+    var yPos = 0;  // Y position of cell
+    var neighborCounter = 0 // Number of living neighbors to this cell
+
+    for(var i = -1; i <= 1; i++){
+	    for(var j = -1; j <= 1; j++){
+        // Do indexOf the X, Y combo here and see if it is in the aliveCells array
+        // If so, use these loops to figure out if the cells around it are alive or dead
+        // Take actions based on Game of Life rules
+      }
+    }
+
+  }
   
 
 
