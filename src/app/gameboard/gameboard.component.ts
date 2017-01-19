@@ -83,15 +83,20 @@ export class GameboardComponent implements OnInit {
           allCellsArray.push(innerCellArray);
         }
 
+        // I turned this array into a string, so that I could use it to compare in the next conditional below
+        var localAliveArrayString = JSON.stringify(localAliveArray);
         for (var k = 0; k < allCellsArray.length; k++) {
           
           // Reset neighborCounter to 0 for each iteration of loop through all cells
           var neighborCounter : number = 0
-          
+          var xPos = allCellsArray[k][0];
+          var yPos = allCellsArray[k][1];
+
           // Check to see if each cell in the grid is alive or dead
           // By referencing if it exists in the array of alive cells in localAliveArray
-          if (localAliveArray.indexOf(allCellsArray[k] >= 0)) {
+          if (localAliveArrayString.indexOf(JSON.stringify(allCellsArray[k])) >= 0) {
             cellIsAlive = true;
+            //console.log(cellIsAlive);
             for(var i = -1; i <= 1; i++) {
               for(var j = -1; j <= 1; j++) {
                 // Use these loops to figure out if the cells around it are alive or dead
@@ -100,6 +105,7 @@ export class GameboardComponent implements OnInit {
             }
           } else {
             cellIsAlive = false;
+            //console.log(cellIsAlive);
             for(var i = -1; i <= 1; i++) {
               for(var j = -1; j <= 1; j++) {
                 // Use these loops to figure out if the cells around it are alive or dead
