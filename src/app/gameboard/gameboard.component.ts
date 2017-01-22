@@ -35,6 +35,7 @@ export class GameboardComponent implements OnInit, AfterViewChecked {
     this.ctx = this.canvas.getContext("2d");
     this.buildBoard();
     this.firstGeneration(this.canvasWidth, this.canvasHeight);
+    this.simulateLife();
   }
 
 // @P1xt - This console.log is printing to the console every 3 seconds, so I know that this code is running every 3 seconds due to
@@ -88,7 +89,7 @@ ngAfterViewChecked() {
 
      // Function to simulate generations of life
       simulateLife() {
-        //console.log(this.localAliveArray);
+         console.log("This ran");
         // This loop creates an array of all cells in the grid, and their X and Y coordinates
         // Array of arrays that looks like:
         // [[0, 0], [1, 0], [2, 0], ..., [83, 49], [84, 49]]
