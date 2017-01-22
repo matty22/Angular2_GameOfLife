@@ -22,7 +22,7 @@ export class GameboardComponent implements OnInit, AfterViewChecked {
     setInterval(function() {
         numberOfGenerations++;
         ref.markForCheck();
-    }, 3000);
+    }, 1000);
     
   }
 
@@ -35,7 +35,6 @@ export class GameboardComponent implements OnInit, AfterViewChecked {
     this.ctx = this.canvas.getContext("2d");
     this.buildBoard();
     this.firstGeneration(this.canvasWidth, this.canvasHeight);
-    this.simulateLife();
   }
 
 // @P1xt - This console.log is printing to the console every 3 seconds, so I know that this code is running every 3 seconds due to
@@ -89,12 +88,12 @@ ngAfterViewChecked() {
 
      // Function to simulate generations of life
       simulateLife() {
-         console.log("This ran");
         // This loop creates an array of all cells in the grid, and their X and Y coordinates
         // Array of arrays that looks like:
         // [[0, 0], [1, 0], [2, 0], ..., [83, 49], [84, 49]]
+        console.log(this.localAliveArray);
         var allCellsArray = [];
-        var changedAliveArray = [];
+        var changedAliveArray = this.localAliveArray;
         for (var i = 0; i < this.canvasWidth * this.canvasHeight; i++) {
           var innerCellArray = [];
           innerCellArray.push(i % this.canvasWidth);
@@ -120,13 +119,14 @@ ngAfterViewChecked() {
                 // These loops determine if the cells around allCellsArray[k] are alive or dead
                 // Take actions based on Game of Life rules for living cell
                 if (localAliveArrayString.indexOf(JSON.stringify([xPos + i, yPos + j])) >= 0 ) {
-                  changedAliveArray.push([xPos + i, yPos + j]);
                   neighborCounter += 1;
                 } 
               }
             }
             if (neighborCounter < 2 || neighborCounter > 3) {
               // Kill this living cell because it has too few or too many neighbors
+              var index = changedAliveArray.indexOf(allCellsArray[k]);
+              changedAliveArray.splice(index, 1);
               this.ctx.fillStyle = "black";
               this.ctx.fillRect(allCellsArray[k][0] * 10, allCellsArray[k][1] * 10, 10, 10);
               this.ctx.strokeStyle="#5a5a5a";
@@ -138,13 +138,13 @@ ngAfterViewChecked() {
                 // These loops determine if the cells around allCellsArray[k] are alive or dead
                 // Take actions based on Game of Life rules for dead cell
                 if (localAliveArrayString.indexOf(JSON.stringify([xPos + i, yPos + j])) >= 0 ) {
-                  changedAliveArray.push([xPos + i, yPos + j]);
                   neighborCounter += 1;
                 }
               }
             }
             if (neighborCounter === 3) {
               // Make this dead cell live because it has exactly 3 neighbors
+              changedAliveArray.push(allCellsArray[k]);
               this.ctx.fillStyle = "green";
               this.ctx.fillRect(allCellsArray[k][0] * 10, allCellsArray[k][1] * 10, 10, 10);
               this.ctx.strokeStyle="#5a5a5a";
