@@ -7,5 +7,5 @@ import { GameboardComponent } from './gameboard/gameboard.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Game of Life';
+  title = 'Matt\'s Game of Life';
 }

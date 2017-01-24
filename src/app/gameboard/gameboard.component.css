@@ -1,4 +1,10 @@
 /* Styles for Gameboard canvas */
+
+#generationsDiv {
+  float: right;
+  color: #ffffff;
+}
+
 #gameboard {
   border: 1px solid black;
   background-color: #bababa

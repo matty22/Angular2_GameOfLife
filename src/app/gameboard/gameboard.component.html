@@ -1,4 +1,4 @@
-<div>Number of Generations: {{ numberOfGenerations }}</div>
+<div id="generationsDiv">Number of Generations: {{ numberOfGenerations }}</div>
 <canvas id="gameboard" height="500" width="850"></canvas>
 <button class="btn btn-success" [disabled]="clearButton" [disabled]="!paused" (click)="startButtonClicked()">Start</button>
 <button class="btn btn-warning" [disabled]="clearButton" [disabled]="!randomizeButton" [disabled]="paused" (click)="pauseButtonClicked()">Pause</button>
