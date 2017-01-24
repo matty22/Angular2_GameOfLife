@@ -17,13 +17,16 @@ export class GameboardComponent implements OnInit, AfterViewChecked {
   localAliveArray;
   speed: number;
   numberOfGenerations: number;
+  paused: boolean;
+  clearButton: boolean;
+  randomizeButton: boolean;
 
   // Set up interval for change detection
   constructor(private ref: ChangeDetectorRef) { 
     setInterval(function() {
         this.ref = ref;
         ref.markForCheck();
-    }, 100);
+    }, 200);
     
   }
 
@@ -36,16 +39,22 @@ export class GameboardComponent implements OnInit, AfterViewChecked {
     this.canvasHeight = 50;
     this.ctx = this.canvas.getContext("2d");
     this.numberOfGenerations = 0;
+    this.paused = false;
+    this.clearButton = false;
+    this.randomizeButton = false;
     this.buildBoard();
     this.firstGeneration(this.canvasWidth, this.canvasHeight);
   }
 
-// Each time the view changes, run this
-ngAfterViewChecked() {
-     this.simulateLife();
-     this.numberOfGenerations++;
-     this.ref.detectChanges();
-}
+  // Each time the view changes, run this
+  ngAfterViewChecked() {
+      if (!this.paused) {
+        this.simulateLife();
+        this.numberOfGenerations++;
+        this.ref.detectChanges();
+      }
+      
+  }
       
       
       // **** Function definitions **** //
@@ -89,7 +98,7 @@ ngAfterViewChecked() {
       }
 
      // Function to simulate generations of life
-      simulateLife() {
+     simulateLife() {
         // This loop creates an allCellsArray of all cells in the grid, and their X and Y coordinates
         // Array of arrays that looks like:
         // [[0, 0], [1, 0], [2, 0], ..., [83, 49], [84, 49]]
@@ -101,7 +110,8 @@ ngAfterViewChecked() {
           allCellsArray.push(innerCellArray);
         }
 
-        // Set changedAliveArray equal to whatever is in this.localAliveArray for this iteration
+        // Set changedAliveArray equal to empty array so that when we determine a cell is alive
+        // we can push that living cell array into this array
         var changedAliveArray = [];
 
         // I turned this array into a string, so that I could use it to compare in the next conditional below
@@ -117,7 +127,6 @@ ngAfterViewChecked() {
           // If the cell is alive
           if (localAliveArrayString.indexOf(JSON.stringify(allCellsArray[k])) >= 0) {
             changedAliveArray.push(allCellsArray[k]);
-            //console.log(changedAliveArray);
             for(var i = -1; i <= 1; i++) {
               for(var j = -1; j <= 1; j++) {
                 // These loops determine if the cells around allCellsArray[k] are alive or dead
@@ -159,15 +168,31 @@ ngAfterViewChecked() {
         }
         // Set localAliveArray equal to the new array of living cells created in each generation
         this.localAliveArray = changedAliveArray;
+     }
+
+
+      startButtonClicked() {
+        this.paused = false;
       }
 
+      pauseButtonClicked() {
+        this.paused = true;
+      }
 
-      startButtonClicked() {}
+      randomizeButtonClicked() {
+        this.paused = false;
+        this.randomizeButton = true;
+        this.firstGeneration(this.canvasWidth, this.canvasHeight);
+        this.clearButton = false;
 
-      pauseButtonClicked() {}
+      }
 
-      randomizeButtonClicked() {}
-
-      clearButtonClicked() {}
+      clearButtonClicked() {
+        this.paused = true;
+        this.clearButton = true;
+        this.numberOfGenerations = 0;
+        this.localAliveArray = [];  
+        this.buildBoard();
+      }
   }
   

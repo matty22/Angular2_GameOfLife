@@ -1,7 +1,7 @@
 <div>Number of Generations: {{ numberOfGenerations }}</div>
 <canvas id="gameboard" height="500" width="850"></canvas>
-<button class="btn btn-success">Start</button>
-<button class="btn btn-warning">Pause</button>
-<button class="btn btn-info">Re-randomize</button>
-<button class="btn btn-danger">Clear</button>
+<button class="btn btn-success" [disabled]="clearButton" [disabled]="!paused" (click)="startButtonClicked()">Start</button>
+<button class="btn btn-warning" [disabled]="clearButton" [disabled]="!randomizeButton" [disabled]="paused" (click)="pauseButtonClicked()">Pause</button>
+<button class="btn btn-info" [disabled]="!clearButton" (click)="randomizeButtonClicked()">Re-randomize</button>
+<button id="clearButton" class="btn btn-danger" (click)="clearButtonClicked()">Clear</button>
 
